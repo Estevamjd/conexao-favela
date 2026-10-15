@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Expo / React Native
+.expo/
+dist/
+dist-qa/
+web-build/
+.next/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Native build output
+android/
+ios/
+
+# Firebase and credentials
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+service-account*.json
+google-services.json
+GoogleService-Info.plist
+.env
+.env.*
+!.env.example
+
+# Tests and coverage
+coverage/
+.nyc_output/
+*.tsbuildinfo
+test-results/
+qa-artifacts/
+.tool-cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+expo-start.*.log
+.expo-mobile*.log
+.expo-web*.log
+admin-dev.*.log
+tmp-*.log
+.dev-logs/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

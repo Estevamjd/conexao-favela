@@ -1,0 +1,29 @@
+{
+  "name": "@conexao-favela/firebase-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "smoke:mobile-web": "tsx src/smoke-mobile-web.ts",
+    "seed:pois": "tsx src/seed-pois.ts"
+  },
+  "dependencies": {
+    "@conexao-favela/shared": "workspace:*",
+    "dotenv": "^17.2.3",
+    "firebase-admin": "^13.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.21.0",
+    "vitest": "^4.0.14"
+  }
+}

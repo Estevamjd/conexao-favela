@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+---
+- launchApp
+- assertVisible: '.*Historias reais.*'
+- tapOn: 'Explorar'
+- assertVisible: 'Filtros'
+- tapOn: '.*Memorias do teleferico.*'
+- assertVisible: '.*Reservar tour.*'
+- tapOn: 'Reservar tour'
+- assertVisible: 'Reservar tour'
+- tapOn: 'Confirmar reserva'
+- assertVisible: '.*Pagamento seguro.*'
+- tapOn: 'Criar pagamento'
+- assertVisible: '.*Pix.*'
+- assertVisible: '.*Aguardando pagamento.*'
+- tapOn: 'Simular aprovacao'
+- assertVisible: '.*Pagamento aprovado.*'
+- tapOn: 'Ver reserva'
+- assertVisible: '.*Detalhe da reserva.*'

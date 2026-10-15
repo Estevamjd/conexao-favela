@@ -1,0 +1,20 @@
+appId: ${APP_ID}
+---
+- launchApp
+- assertVisible: '.*Historias reais.*'
+- assertVisible: 'Tours em destaque'
+- swipe:
+    start: 85%, 46%
+    end: 15%, 46%
+    duration: 500
+- assertVisible: 'Pontos turisticos'
+- swipe:
+    start: 85%, 74%
+    end: 15%, 74%
+    duration: 500
+- tapOn: 'Mapa'
+- assertVisible: '.*Mapa interativo.*'
+- tapOn: '.*Estacao Alemao.*'
+- assertVisible: '.*Ver detalhes do ponto.*'
+- tapOn: 'Ver detalhes do ponto'
+- assertVisible: '.*Detalhe do ponto turistico.*'

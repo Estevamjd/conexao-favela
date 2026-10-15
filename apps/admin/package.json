@@ -1,0 +1,31 @@
+{
+  "name": "@conexao-favela/admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage --passWithNoTests"
+  },
+  "dependencies": {
+    "@conexao-favela/firebase-config": "workspace:*",
+    "@conexao-favela/shared": "workspace:*",
+    "firebase": "^12.13.0",
+    "lucide-react": "^0.554.0",
+    "next": "15.5.18",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.17",
+    "typescript": "~6.0.3",
+    "vitest": "^4.0.14"
+  }
+}

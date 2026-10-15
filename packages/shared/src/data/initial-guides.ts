@@ -1,0 +1,66 @@
+import type { PublicGuide } from '../types';
+import { timestampFromDate } from '../utils/timestamps';
+import { INITIAL_COMMUNITY_ID, INITIAL_SUB_AREA_IDS } from './initial-community';
+
+export const INITIAL_PUBLIC_GUIDES: readonly PublicGuide[] = [
+  {
+    id: 'seed-guide-teleferico',
+    active: true,
+    displayName: 'Luana Martins',
+    photoUrl: 'seed://guides/luana-martins.jpg',
+    communityId: INITIAL_COMMUNITY_ID,
+    subAreaIds: [INITIAL_SUB_AREA_IDS.morroAlemao, INITIAL_SUB_AREA_IDS.morroAdeus],
+    bio: {
+      pt: 'Moradora do eixo das antigas estacoes, Luana conduz roteiros sobre memoria urbana, mobilidade e cotidiano local.',
+      en: 'A resident from the former station axis, Luana leads routes about urban memory, mobility, and local everyday life.',
+      es: 'Vecina del eje de las antiguas estaciones, Luana guia rutas sobre memoria urbana, movilidad y vida cotidiana local.',
+    },
+    languagesSpoken: ['pt', 'en', 'es'],
+    yearsOfExperience: 6,
+    rating: 4.9,
+    totalReviews: 32,
+    totalToursCompleted: 146,
+    verified: true,
+    verifiedAt: timestampFromDate(new Date('2026-05-28T12:00:00.000Z')),
+  },
+  {
+    id: 'seed-guide-arte',
+    active: true,
+    displayName: 'Carolina Nascimento',
+    photoUrl: 'seed://guides/carolina-nascimento.jpg',
+    communityId: INITIAL_COMMUNITY_ID,
+    subAreaIds: [INITIAL_SUB_AREA_IDS.morroAlemao],
+    bio: {
+      pt: 'Produtora cultural e moradora, Carolina conecta visitantes a grafites, pracas, comida local e artistas da comunidade.',
+      en: 'A local cultural producer, Carolina connects visitors with murals, squares, local food, and community artists.',
+      es: 'Productora cultural y vecina, Carolina conecta visitantes con murales, plazas, comida local y artistas de la comunidad.',
+    },
+    languagesSpoken: ['pt', 'es'],
+    yearsOfExperience: 5,
+    rating: 4.8,
+    totalReviews: 27,
+    totalToursCompleted: 119,
+    verified: true,
+    verifiedAt: timestampFromDate(new Date('2026-05-29T12:00:00.000Z')),
+  },
+  {
+    id: 'seed-guide-natureza',
+    active: true,
+    displayName: 'Matheus Souza',
+    photoUrl: 'seed://guides/matheus-souza.jpg',
+    communityId: INITIAL_COMMUNITY_ID,
+    subAreaIds: [INITIAL_SUB_AREA_IDS.morroAlemao],
+    bio: {
+      pt: 'Matheus atua em trilhas leves e interpretacao ambiental, sempre reforcando seguranca, respeito ao territorio e memoria da Serra da Misericordia.',
+      en: 'Matheus leads light trails and environmental interpretation, always reinforcing safety, territorial respect, and Serra da Misericordia memory.',
+      es: 'Matheus guia senderos ligeros e interpretacion ambiental, reforzando seguridad, respeto al territorio y memoria de la Serra da Misericordia.',
+    },
+    languagesSpoken: ['pt', 'en'],
+    yearsOfExperience: 4,
+    rating: 4.7,
+    totalReviews: 21,
+    totalToursCompleted: 88,
+    verified: true,
+    verifiedAt: timestampFromDate(new Date('2026-05-30T12:00:00.000Z')),
+  },
+];

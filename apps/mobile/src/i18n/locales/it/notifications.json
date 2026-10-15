@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "Tutto aggiornato",
+  "emptyBody": "Le notifiche importanti delle tue prenotazioni appariranno qui.",
+  "unreadCount": "{{count}} non letta/e",
+  "markAllRead": "Segna tutte",
+  "markRead": "Segna come letta",
+  "unread": "Non letta",
+  "read": "Letta",
+  "pushTitle": "Avvisi push",
+  "pushBody": "Attiva gli avvisi di prenotazione su questo dispositivo.",
+  "pushReadyBody": "Dispositivo registrato per gli avvisi di prenotazione.",
+  "pushEnable": "Attiva push",
+  "pushRetry": "Riprova",
+  "pushStatus": {
+    "idle": "Non configurato",
+    "requesting": "Richiesta permesso",
+    "granted": "Attivo",
+    "denied": "Permesso negato",
+    "unsupported": "Non disponibile nel preview web",
+    "unavailable": "Progetto Expo mancante",
+    "error": "Registrazione fallita"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "Tout est a jour",
+  "emptyBody": "Les notifications importantes de vos reservations apparaitront ici.",
+  "unreadCount": "{{count}} non lue(s)",
+  "markAllRead": "Tout marquer",
+  "markRead": "Marquer comme lue",
+  "unread": "Non lue",
+  "read": "Lue",
+  "pushTitle": "Alertes push",
+  "pushBody": "Activez les alertes de reservation sur cet appareil.",
+  "pushReadyBody": "Appareil enregistre pour les alertes de reservation.",
+  "pushEnable": "Activer push",
+  "pushRetry": "Reessayer",
+  "pushStatus": {
+    "idle": "Non configure",
+    "requesting": "Demande de permission",
+    "granted": "Actif",
+    "denied": "Permission refusee",
+    "unsupported": "Indisponible dans le preview web",
+    "unavailable": "Projet Expo manquant",
+    "error": "Echec du registre"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "Alles erledigt",
+  "emptyBody": "Wichtige Buchungsbenachrichtigungen erscheinen hier.",
+  "unreadCount": "{{count}} ungelesen",
+  "markAllRead": "Alle markieren",
+  "markRead": "Als gelesen markieren",
+  "unread": "Ungelesen",
+  "read": "Gelesen",
+  "pushTitle": "Push-Hinweise",
+  "pushBody": "Aktiviere Buchungshinweise auf diesem Geraet.",
+  "pushReadyBody": "Geraet fuer Buchungshinweise registriert.",
+  "pushEnable": "Push aktivieren",
+  "pushRetry": "Erneut versuchen",
+  "pushStatus": {
+    "idle": "Nicht konfiguriert",
+    "requesting": "Berechtigung wird angefragt",
+    "granted": "Aktiv",
+    "denied": "Berechtigung verweigert",
+    "unsupported": "Im Web-Preview nicht verfuegbar",
+    "unavailable": "Expo-Projekt fehlt",
+    "error": "Registrierung fehlgeschlagen"
+  }
+}

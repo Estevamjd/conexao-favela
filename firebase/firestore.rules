@@ -1,0 +1,235 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    function userDocument(userId) {
+      return get(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function isVerifiedGuide() {
+      return isAuthenticated()
+        && userDocument(request.auth.uid).data.type == 'guide'
+        && userDocument(request.auth.uid).data.guideProfile.verified == true;
+    }
+
+    function isBookingParticipant() {
+      return isAuthenticated()
+        && (resource.data.touristId == request.auth.uid || resource.data.guideId == request.auth.uid);
+    }
+
+    function createsOwnUserProfile(userId) {
+      return isOwner(userId)
+        && request.resource.data.id == userId
+        && request.resource.data.type in ['tourist', 'guide']
+        && guideVerificationIsClientSafe();
+    }
+
+    function guideVerificationIsClientSafe() {
+      return request.resource.data.type != 'guide'
+        || (
+          request.resource.data.guideProfile.verified == false
+          && !('verifiedAt' in request.resource.data.guideProfile)
+          && request.resource.data.guideProfile.documents.cpfHash == 'pending-manual-review'
+          && request.resource.data.guideProfile.documents.documentUrls is list
+        );
+    }
+
+    function ownerCanUpdateBasicProfile(userId) {
+      return isOwner(userId)
+        && request.resource.data.id == resource.data.id
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.type == resource.data.type
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'displayName',
+          'photoUrl',
+          'preferredLanguage',
+          'preferredCurrency',
+          'notificationsEnabled',
+          'touristProfile',
+          'updatedAt',
+          'lastLoginAt'
+        ]);
+    }
+
+    function existingGuideVerificationIsPending() {
+      return !('guideProfile' in resource.data)
+        || resource.data.guideProfile.verified == false;
+    }
+
+    function ownerCanSubmitGuideRegistration(userId) {
+      return isOwner(userId)
+        && existingGuideVerificationIsPending()
+        && request.resource.data.id == resource.data.id
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.type == 'guide'
+        && guideVerificationIsClientSafe()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'type',
+          'displayName',
+          'updatedAt',
+          'guideProfile'
+        ]);
+    }
+
+    function ownerCanUpdateUser(userId) {
+      return ownerCanUpdateBasicProfile(userId) || ownerCanSubmitGuideRegistration(userId);
+    }
+
+    function ownerCanMarkNotificationRead() {
+      return isAuthenticated()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.type == resource.data.type
+        && request.resource.data.title == resource.data.title
+        && request.resource.data.body == resource.data.body
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'read',
+          'readAt'
+        ])
+        && request.resource.data.read == true
+        && request.resource.data.readAt is timestamp;
+    }
+
+    function isPaymentOwner() {
+      return isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    function isAccessOwner() {
+      return isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    match /communities/{communityId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /points_of_interest/{poiId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /public_guides/{guideId} {
+      allow read: if resource.data.active == true && resource.data.verified == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if createsOwnUserProfile(userId);
+      allow update: if isAdmin() || ownerCanUpdateUser(userId);
+      allow delete: if isAdmin();
+
+      match /push_tokens/{tokenId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /tours/{tourId} {
+      allow read: if resource.data.status == 'published'
+        || isAdmin()
+        || (isAuthenticated() && resource.data.guideId == request.auth.uid);
+      allow create: if false;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if isBookingParticipant() || isAdmin();
+      allow create: if false;
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow update: if ownerCanMarkNotificationRead();
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /plans/{planId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isPaymentOwner() || isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /accesses/{accessId} {
+      allow read: if isAccessOwner() || isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /webhook_events/{eventId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /rate_limits/{limitId} {
+      allow read, create, update, delete: if false;
+    }
+
+    match /chats/{chatId} {
+      allow read: if isAuthenticated() && request.auth.uid in resource.data.participants;
+      allow create, update, delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isAuthenticated()
+          && request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        allow create, update, delete: if false;
+      }
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if resource.data.status == 'published'
+        || isAdmin()
+        || (isAuthenticated()
+          && (resource.data.touristId == request.auth.uid || resource.data.guideId == request.auth.uid));
+      allow create, update, delete: if false;
+    }
+
+    match /coupons/{couponId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /coupon_redemptions/{redemptionId} {
+      allow read: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /marketplace_items/{itemId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /marketplace_inquiries/{inquiryId} {
+      allow read: if isAuthenticated()
+        && (resource.data.userId == request.auth.uid
+          || resource.data.providerId == request.auth.uid
+          || isAdmin());
+      allow create, update, delete: if false;
+    }
+
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}

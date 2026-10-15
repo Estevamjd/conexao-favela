@@ -1,0 +1,55 @@
+{
+  "name": "conexao-favela",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo do Conexao Favela, plataforma multi-comunidade para turismo comunitario.",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22.13.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev:mobile": "pnpm --filter @conexao-favela/mobile start",
+    "assets:mobile": "node scripts/render-mobile-assets.mjs",
+    "build": "pnpm --filter @conexao-favela/functions build && pnpm --filter @conexao-favela/admin build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:e2e": "maestro test -e APP_ID=host.exp.Exponent .maestro",
+    "test:coverage": "pnpm -r test:coverage",
+    "smoke:mobile-web": "pnpm --filter @conexao-favela/firebase-config smoke:mobile-web",
+    "qa:mobile-web": "playwright test --config qa/playwright.mobile-web.config.ts",
+    "qa:mobile-web:visual": "playwright test --config qa/playwright.mobile-web-visual.config.ts",
+    "qa:mobile-web:export": "pnpm --filter @conexao-favela/mobile exec expo export --platform web --output-dir dist-qa --max-workers 2",
+    "qa:mobile-web:server": "pnpm qa:mobile-web:export && node scripts/serve-expo-static.mjs apps/mobile/dist-qa 8081",
+    "qa:admin-web": "playwright test --config qa/playwright.admin-web.config.ts",
+    "qa:admin-web:visual": "playwright test --config qa/playwright.admin-web-visual.config.ts",
+    "seed:pois": "pnpm --filter @conexao-favela/firebase-config seed:pois",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@next/eslint-plugin-next": "^15.5.18",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^24.12.4",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "sharp": "^0.34.5",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.60.0",
+    "vitest": "^4.0.14"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,md}": [
+      "prettier --check"
+    ],
+    "*.{ts,tsx}": [
+      "eslint"
+    ]
+  }
+}

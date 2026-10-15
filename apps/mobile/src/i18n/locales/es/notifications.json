@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "Todo al dia",
+  "emptyBody": "Las notificaciones importantes de tus reservas apareceran aqui.",
+  "unreadCount": "{{count}} sin leer",
+  "markAllRead": "Marcar todas",
+  "markRead": "Marcar como leida",
+  "unread": "No leida",
+  "read": "Leida",
+  "pushTitle": "Avisos push",
+  "pushBody": "Activa los avisos de reserva en este dispositivo.",
+  "pushReadyBody": "Dispositivo registrado para recibir avisos de reserva.",
+  "pushEnable": "Activar push",
+  "pushRetry": "Intentar de nuevo",
+  "pushStatus": {
+    "idle": "No configurado",
+    "requesting": "Pidiendo permiso",
+    "granted": "Activo",
+    "denied": "Permiso denegado",
+    "unsupported": "No disponible en preview web",
+    "unavailable": "Falta el proyecto Expo",
+    "error": "Fallo el registro"
+  }
+}

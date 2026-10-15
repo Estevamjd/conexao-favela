@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    function isVerifiedGuide(guideId) {
+      return isAuthenticated()
+        && request.auth.uid == guideId
+        && firestore.exists(/databases/(default)/documents/users/$(guideId))
+        && firestore.get(/databases/(default)/documents/users/$(guideId)).data.type == 'guide'
+        && firestore.get(/databases/(default)/documents/users/$(guideId)).data.guideProfile.verified == true;
+    }
+
+    function isBookingOwner(userId, bookingId) {
+      return isAuthenticated()
+        && request.auth.uid == userId
+        && firestore.exists(/databases/(default)/documents/bookings/$(bookingId))
+        && firestore.get(/databases/(default)/documents/bookings/$(bookingId)).data.touristId == userId;
+    }
+
+    function isBookingParticipant(bookingId) {
+      return isAuthenticated()
+        && firestore.exists(/databases/(default)/documents/bookings/$(bookingId))
+        && (
+          firestore.get(/databases/(default)/documents/bookings/$(bookingId)).data.touristId == request.auth.uid
+          || firestore.get(/databases/(default)/documents/bookings/$(bookingId)).data.guideId == request.auth.uid
+        );
+    }
+
+    function isPublishedReview(bookingId) {
+      return firestore.exists(/databases/(default)/documents/reviews/booking_$(bookingId))
+        && firestore.get(/databases/(default)/documents/reviews/booking_$(bookingId)).data.status == 'published';
+    }
+
+    match /guide-documents/{guideId}/{fileName} {
+      allow read: if isAdmin() || (isAuthenticated() && request.auth.uid == guideId);
+      allow write: if isAuthenticated()
+        && request.auth.uid == guideId
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|application/pdf');
+    }
+
+    match /tour-media/{guideId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isVerifiedGuide(guideId)
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|video/.*');
+      allow delete: if isAdmin() || isVerifiedGuide(guideId);
+    }
+
+    match /community-media/{communityId}/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /review-media/{userId}/{bookingId}/{fileName} {
+      allow read: if isAdmin()
+        || isBookingParticipant(bookingId)
+        || isPublishedReview(bookingId);
+      allow create, update: if isBookingOwner(userId, bookingId)
+        && firestore.get(/databases/(default)/documents/bookings/$(bookingId)).data.status == 'completed'
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if isAdmin() || isBookingOwner(userId, bookingId);
+    }
+  }
+}

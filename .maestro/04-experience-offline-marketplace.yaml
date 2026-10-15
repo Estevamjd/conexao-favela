@@ -1,0 +1,20 @@
+appId: ${APP_ID}
+---
+- launchApp
+- assertVisible: '.*Historias reais.*'
+- tapOn: 'Sua experiencia'
+- assertVisible: 'Sua experiencia'
+- tapOn: '.*Modo offline.*'
+- assertVisible: 'Modo offline'
+- tapOn: 'Baixar conteudo'
+- assertVisible: 'Conteudo disponivel offline'
+- back
+- tapOn: '.*Sabores, arte e hospedagem.*'
+- assertVisible: 'Sabores, arte e hospedagem'
+- tapOn:
+    text: 'Pedir disponibilidade'
+    index: 0
+- tapOn: '.*Conte a data.*'
+- inputText: 'Duas pessoas no sabado pela manha.'
+- tapOn: 'Enviar'
+- assertVisible: '.*Pedido enviado.*'

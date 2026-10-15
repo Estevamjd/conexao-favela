@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "All caught up",
+  "emptyBody": "Important booking notifications will appear here.",
+  "unreadCount": "{{count}} unread",
+  "markAllRead": "Mark all",
+  "markRead": "Mark as read",
+  "unread": "Unread",
+  "read": "Read",
+  "pushTitle": "Push alerts",
+  "pushBody": "Enable booking alerts on this device.",
+  "pushReadyBody": "Device registered for booking alerts.",
+  "pushEnable": "Enable push",
+  "pushRetry": "Try again",
+  "pushStatus": {
+    "idle": "Not configured",
+    "requesting": "Requesting permission",
+    "granted": "Enabled",
+    "denied": "Permission denied",
+    "unsupported": "Unavailable in web preview",
+    "unavailable": "Missing Expo project",
+    "error": "Registration failed"
+  }
+}

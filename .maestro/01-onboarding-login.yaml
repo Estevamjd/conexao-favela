@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+---
+- launchApp:
+    clearState: true
+- assertVisible: '.*Turismo com escuta.*'
+- tapOn: 'Continuar'
+- assertVisible: '.*Guias moradores.*'
+- tapOn: 'Continuar'
+- assertVisible: '.*Reserva simples.*'
+- tapOn: 'Escolher idioma'
+- assertVisible: '.*Escolha o idioma.*'
+- tapOn: 'Portugu.*'
+- assertVisible: '.*Historias reais.*'
+- tapOn: 'Entrar ou criar conta'
+- assertVisible: '.*Entrar ou criar conta.*'
+- tapOn: 'Email'
+- inputText: 'qa@example.com'
+- tapOn: 'Senha'
+- inputText: 'segredo123'
+- tapOn: 'Entrar com email'
+- assertVisible: '.*Historias reais.*'

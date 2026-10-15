@@ -1,0 +1,23 @@
+{
+  "emptyTitle": "Tudo em dia",
+  "emptyBody": "As notificacoes importantes das suas reservas aparecerao aqui.",
+  "unreadCount": "{{count}} nao lida(s)",
+  "markAllRead": "Marcar todas",
+  "markRead": "Marcar como lida",
+  "unread": "Nao lida",
+  "read": "Lida",
+  "pushTitle": "Avisos push",
+  "pushBody": "Ative os avisos de reserva neste aparelho.",
+  "pushReadyBody": "Aparelho registrado para receber avisos de reserva.",
+  "pushEnable": "Ativar push",
+  "pushRetry": "Tentar novamente",
+  "pushStatus": {
+    "idle": "Nao configurado",
+    "requesting": "Pedindo permissao",
+    "granted": "Ativo",
+    "denied": "Permissao negada",
+    "unsupported": "Indisponivel no preview web",
+    "unavailable": "Projeto Expo ausente",
+    "error": "Falha no registro"
+  }
+}
